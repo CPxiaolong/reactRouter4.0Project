@@ -5,7 +5,7 @@ export default class Home extends Component {
     render() {
         return(
             <div>
-                <div className = 'box'>
+                <div>
                     <NavLink to="/calendar" activeClassName="selected"> calendar </NavLink>
                 </div>
                 <div>

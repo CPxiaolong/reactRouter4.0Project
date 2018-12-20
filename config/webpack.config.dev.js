@@ -34,8 +34,9 @@ const useTypeScript = fs.existsSync(paths.appTsConfig);
 
 // style files regexes
 const cssRegex = /\.css$/;
-const useable = /\.use(able)?\.css$/;
-const cssModuleRegex = /\.module\.css$|\.use(able)?\.css$/;
+const useable = /\.use(able)?\.(css|less)$/;
+const cssModuleRegex = /\.module\.css$|\.use(able)?\.(css|less)$/;
+const useablecssModuleRegex = /\.module\.(css|less)$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 
@@ -66,6 +67,43 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
           }),
         ],
       },
+    },
+  ];
+  if (preProcessor) {
+    loaders.push(require.resolve(preProcessor));
+  }
+  return loaders;
+};
+
+const getUseableStyleLoaders = (cssOptions, preProcessor) => {
+  const loaders = [
+    require.resolve('style-loader/useable'),
+    {
+      loader: require.resolve('css-loader'),
+      options: cssOptions,
+    },
+    {
+      // Options for PostCSS as we reference these options twice
+      // Adds vendor prefixing based on your specified browser support in
+      // package.json
+      loader: require.resolve('postcss-loader'),
+      options: {
+        // Necessary for external CSS imports to work
+        // https://github.com/facebook/create-react-app/issues/2677
+        ident: 'postcss',
+        plugins: () => [
+          require('postcss-flexbugs-fixes'),
+          require('postcss-preset-env')({
+            autoprefixer: {
+              flexbox: 'no-2009',
+            },
+            stage: 3,
+          }),
+        ],
+      },
+    },
+    {
+      loader: require.resolve('less-loader'),
     },
   ];
   if (preProcessor) {
@@ -283,10 +321,9 @@ module.exports = {
           },
           {
             test: useable,
-            exclude: cssModuleRegex,
-            use: getStyleLoaders({
+            exclude: useablecssModuleRegex,
+            use: getUseableStyleLoaders({
               importLoaders: 1,
-              modules: true
             }),
           },
           // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
