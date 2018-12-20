@@ -34,7 +34,8 @@ const useTypeScript = fs.existsSync(paths.appTsConfig);
 
 // style files regexes
 const cssRegex = /\.css$/;
-const cssModuleRegex = /\.module\.css$/;
+const useable = /\.use(able)?\.css$/;
+const cssModuleRegex = /\.module\.css$|\.use(able)?\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 
@@ -278,6 +279,14 @@ module.exports = {
             exclude: cssModuleRegex,
             use: getStyleLoaders({
               importLoaders: 1,
+            }),
+          },
+          {
+            test: useable,
+            exclude: cssModuleRegex,
+            use: getStyleLoaders({
+              importLoaders: 1,
+              modules: true
             }),
           },
           // Adds support for CSS Modules (https://github.com/css-modules/css-modules)

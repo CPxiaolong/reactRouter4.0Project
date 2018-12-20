@@ -1,14 +1,20 @@
 import React, {Component} from 'react';
-import style from './style.css'
+import style from './style.use.css'
 
 export default class Test extends Component {
+    componentWillMount() {
+        // style.use()
+    }
+    componentWillUnmount() {
+        // style.unuse()
+    }
     render() {
         return(
-            <div className = 'box'>
+            <div className = {style.box}>
                 <div>
-                    {'calendar'}
+                    {'测试'}
                 </div>
             </div>
         )
     }
-} 
+}
