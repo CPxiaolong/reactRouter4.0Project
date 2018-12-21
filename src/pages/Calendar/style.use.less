@@ -1,22 +1,35 @@
 .calendar {
     width: 320px;
     margin-top: 40px;
-
+    .calendar-header {
+        display: flex;
+        justify-content: space-between;
+    }
     .calendar-body {
-        
         .week-container {
             display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
             .week {
-                flex: 1;
+                width: 14.2%;
+                display: inline-block;
                 text-align: center;
             }
         }
 
         .day-container {
+            height: 140px;
             display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
             .day {
-                flex: 1;
+                width: 14.2%;
+                display: inline-block;
                 text-align: center;
+            }
+
+            .today {
+                color: green;
             }
         }
     }
