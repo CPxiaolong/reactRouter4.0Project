@@ -28,11 +28,11 @@ export default class Test extends Component {
     }
 
     componentWillMount() {
-       style.use()
+       style.use() // 需要配置loader 可以直接注释 忽略掉  实现每个模块卸载之后 css也会销毁 可以看之前写的一篇react css局部作用域的文章
     }
 
     componentWillUnmount() {
-       style.unuse()
+       style.unuse() // 需要配置loader 可以直接注释 忽略掉 实现每个模块卸载之后 css也会销毁 可以看之前写的一篇react css局部作用域的文章
     }
 
     componentDidMount() {
@@ -79,7 +79,7 @@ export default class Test extends Component {
         let newDateList = []; // 创建日期数组
         let startDay =  2 - nowWeek; // 开始日期的下标  以为 setDate(0)是上个月最后一天  所以是2-nowWeek
         
-        let showDayLength = nowWeek < 6 ? 35 : 42;
+        let showDayLength = nowWeek < 6 ? 35 : 42;  // 如果5行能显示下一个月 就只显示5行
         // 循环处理 获取日历上应该显示的日期
         for (let i = startDay; i < startDay + showDayLength; i++) {
             let date = new Date(new Date(nowMonthFirstDate).setDate(i)); // 获取时间对象
