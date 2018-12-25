@@ -100,7 +100,7 @@ export default class Test extends Component {
             return {
                 dayList: newDateList,
                 currentDay: nowDate.getDate(),
-                currentMonth: nowDate.getMonth() + 1,
+                currentMonth: nowDate.getMonth() + 1 >= 10 ? nowDate.getMonth() + 1 : '0' + (nowDate.getMonth() + 1),
                 currentYear: nowDate.getFullYear(),
             }
         })
@@ -112,6 +112,9 @@ export default class Test extends Component {
             <div className = 'calendar-header'>
                 <div className = 'calendar-header-left'>
                     <button onClick = {this.preMonth}>上个月</button>
+                </div>
+                <div className = ''>
+                    {this.state.currentYear}年{this.state.currentMonth}月
                 </div>
                 <div className = 'calendar-header-right'>
                     <button onClick = {this.nextMonth}>下个月</button>

@@ -4,13 +4,18 @@
     .calendar-header {
         display: flex;
         justify-content: space-between;
+        padding: 14px 12px; 
     }
     .calendar-body {
         .week-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-around;
+            margin-bottom: 10px;
             .week {
+                &:nth-child(6), &:nth-child(7){
+                    color: #e02d2d;
+                }
                 width: 14.2%;
                 display: inline-block;
                 text-align: center;
@@ -26,11 +31,17 @@
                 width: 14.2%;
                 display: inline-block;
                 text-align: center;
+                &:nth-child(7n-1){
+                    color: #e02d2d;
+                }
+                &:nth-child(7n){
+                    color: #e02d2d;
+                }
+                &.today {
+                    color: green;
+                }
             }
-
-            .today {
-                color: green;
-            }
+ 
         }
     }
 }
