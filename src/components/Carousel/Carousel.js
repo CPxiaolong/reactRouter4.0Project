@@ -12,6 +12,11 @@ export default class Test extends Component {
             currentCarousel: 0,
             translateList: [],
         }
+
+        this.handerCarouselBodyMouseOver = this.handerCarouselBodyMouseOver.bind(this);
+        this.handerCarouselBodyMouseOut = this.handerCarouselBodyMouseOut.bind(this);
+        this.handerCarouselFooterMouseOver = this.handerCarouselFooterMouseOver.bind(this);
+        this.renderIndicators = this.renderIndicators.bind(this);
     }
 
     componentWillMount() {
@@ -20,56 +25,88 @@ export default class Test extends Component {
 
     componentWillUnmount() {
         style.unuse()
-        clearInterval(this.timerID);
+        this.stopCarousel()
     }
 
     componentDidMount() {
-        this.getTranslateList();
-        this.timerID = setInterval(() => {
-                this.setState(pre => {
-                    pre.currentCarousel++
-                    return {
-                        currentCarousel: pre.currentCarousel%4
-                    }
-                })
-                this.getTranslateList();
-            },
-            this.props.step
-        );
-        
+        this.startCarousel()
         
     }
 
-    getTranslateList() {
-        let list = [];
-        let currentCarousel = this.state.currentCarousel;
-        this.props.children.forEach((item, index)=> {
-            if (currentCarousel === index) {
-                list.push(0)
-                if (this.props.children.length - 1 === index) {
-                    list[0] = 100
-                }
-            } else if (this.props.children.length - 1 === index && currentCarousel === 0) {
-                list.push(-100)
-            } else if (currentCarousel === index - 1) {
-                list.push(100)
-            } else if (currentCarousel === index + 1) {
-                list.push(-100)
-            } else {
-                list.push(300)
-            }
-        })
+    /**
+     * @description 开始轮播
+     */
+    startCarousel() {
+        this.stopCarousel()
+        this.timerID = setInterval(() => {
+                this.setState(pre => {
+                    pre.currentCarousel++;
+                    return {
+                        currentCarousel: pre.currentCarousel % (this.props.children.length + 1)
+                    }
+                })
+            },
+            this.props.step
+        );
+    }
+
+    /**
+     * @description  停止轮播
+     */
+    stopCarousel() {
+        clearInterval(this.timerID);
+    }
+
+
+    /**
+     * @description 指示按钮的mouseover事件
+     */
+    handerCarouselFooterMouseOver(currentIndex) {
         this.setState({
-            translateList: list
-        })
+            currentCarousel: currentIndex
+        });
+    }
+
+    /**
+     * @description 轮播的mouseover事件
+     */
+    handerCarouselBodyMouseOver() {
+        this.stopCarousel();
+    }
+
+    /**
+     * @description 轮播的mouseout事件
+     */
+    handerCarouselBodyMouseOut() {
+        this.startCarousel();
+    }
+
+    /**
+     * @description 导航的指示按钮
+     */
+    renderIndicators() {
+        return (
+            <div className = 'carousel-footer'>
+                <ul className = 'indicators-container'>
+                    {this.props.children.map((item, index) => {
+                        return <li onMouseOver = {() => this.handerCarouselFooterMouseOver(index)} className = {`indicators-item ${this.state.currentCarousel === index ? 'active' : ''}`} key = {index} ></li>
+                    })}
+                </ul>
+            </div>
+        )
     }
 
     render() {
         return( 
-            <div className = 'carousel-container'>
-                {this.props.children.map((item, index) => {
-                    return <div className = {`carousel-item ${this.state.translateList[index] === 300 ? '' : 'has-animate'}`} style = {{transform: `translateX(${this.state.translateList[index]}%)`}} key = {index} >{item}</div>
-                })}
+            <div className = 'carousel-container' onMouseOver = {this.handerCarouselBodyMouseOver} onMouseOut = {this.handerCarouselBodyMouseOut}>
+                <div className = 'carousel-body' style = {{width: `${(this.props.children.length+2)*100}%`, transform: `translateX(${-100/(this.props.children.length+2)*(this.state.currentCarousel+1)}%)`}}>
+                    <div className = {`carousel-item`} style = {{width: `${100/(this.props.children.length+2)}%`}} key = {'strat'} >{this.props.children[this.props.children.length-1]}</div>
+                    {this.props.children.map((item, index) => {
+                        return <div className = {`carousel-item`} style = {{width: `${100/(this.props.children.length+2)}%`}} key = {index} >{item}</div>
+                    })}
+                     <div className = {`carousel-item`} style = {{width: `${100/(this.props.children.length+2)}%`}} key = {'end'} >{this.props.children[0]}</div>
+                </div>
+                {this.renderIndicators()}
             </div>
         )
     }
