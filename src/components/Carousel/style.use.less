@@ -40,5 +40,57 @@
             }
         }
     }
+
+    .btn-container {
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+        
+        .btn-direction {
+            padding: 0;
+            margin: 0;
+            height: 42px;
+            line-height: 38px;
+            width: 36px;
+            cursor: pointer;
+            transition: .3s;
+            border-radius: 50%;
+            background-color: rgba(31,45,61,.11);
+            color: #fff;
+            top: 50%;
+            z-index: 10;
+            text-align: center;
+            font-size: 12px;
+            display: inline-block;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+           
+        }
+
+        .pre {
+            left: 12px;
+        }
+
+        .next {
+            right: 12px;
+        }
+
+    }
+
+   
     
+}
+.carousel-container:hover .btn-direction{
+    opacity: 1;
+    
+    &.pre {
+        left: 24px;
+    }
+
+    &.next {
+        right: 24px;
+    }
 }
