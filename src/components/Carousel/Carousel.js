@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import style from './style.use.less'
+import style from './style.use.less';
 
 export default class Test extends Component {
     static defaultProps = {
@@ -11,12 +11,16 @@ export default class Test extends Component {
         this.state = {
             currentCarousel: 0,
             translateList: [],
+            animationStep: 1
         }
 
         this.handerCarouselBodyMouseOver = this.handerCarouselBodyMouseOver.bind(this);
         this.handerCarouselBodyMouseOut = this.handerCarouselBodyMouseOut.bind(this);
         this.handerCarouselFooterMouseOver = this.handerCarouselFooterMouseOver.bind(this);
         this.renderIndicators = this.renderIndicators.bind(this);
+        this.getIndicatorsActive = this.getIndicatorsActive.bind(this);
+        this.handlerNext = this.handlerNext.bind(this);
+        this.handlerTransitionEnd = this.handlerTransitionEnd.bind(this);
     }
 
     componentWillMount() {
@@ -39,15 +43,37 @@ export default class Test extends Component {
     startCarousel() {
         this.stopCarousel()
         this.timerID = setInterval(() => {
-                this.setState(pre => {
-                    pre.currentCarousel++;
-                    return {
-                        currentCarousel: pre.currentCarousel % (this.props.children.length + 1)
-                    }
-                })
+                console.log(this.state.currentCarousel)
+                this.handlerCarousel()  
             },
             this.props.step
         );
+    }
+
+    handlerCarousel() {
+        if (this.state.currentCarousel % (this.props.children.length + 1) !== this.props.children.length) {
+            this.setState(pre => {
+                pre.currentCarousel++;
+                return {
+                    animationStep: 1,
+                    currentCarousel: pre.currentCarousel % (this.props.children.length + 1)
+                }
+            })
+        }
+    }
+
+    handlerTransitionEnd() {
+        if (this.state.currentCarousel % (this.props.children.length + 1) === this.props.children.length) {
+            let step = this.state.animationStep;
+            // requestAnimationFrame(() => {
+                this.setState(pre => {
+                    return {
+                        animationStep: 0,
+                        currentCarousel: 0,
+                    }
+                })
+            // })
+        }
     }
 
     /**
@@ -82,14 +108,32 @@ export default class Test extends Component {
     }
 
     /**
+     * @description 轮播的mouseout事件
+     */
+    handlerNext() {
+        this.handlerCarousel();
+    }
+
+    getIndicatorsActive(index) {
+        let active;
+        if (this.state.currentCarousel === index || this.state.currentCarousel === index + this.props.children.length) {
+            return 'active';
+        }
+        return ''
+    }
+  
+
+    /**
      * @description 导航的指示按钮
      */
     renderIndicators() {
+        
         return (
             <div className = 'carousel-footer'>
                 <ul className = 'indicators-container'>
                     {this.props.children.map((item, index) => {
-                        return <li onMouseOver = {() => this.handerCarouselFooterMouseOver(index)} className = {`indicators-item ${this.state.currentCarousel === index ? 'active' : ''}`} key = {index} ></li>
+                        let active = this.getIndicatorsActive(index)
+                        return <li onMouseOver = {() => this.handerCarouselFooterMouseOver(index)} className = {`indicators-item ${active}`} key = {index} ></li>
                     })}
                 </ul>
             </div>
@@ -99,7 +143,7 @@ export default class Test extends Component {
     render() {
         return( 
             <div className = 'carousel-container' onMouseOver = {this.handerCarouselBodyMouseOver} onMouseOut = {this.handerCarouselBodyMouseOut}>
-                <div className = 'carousel-body' style = {{width: `${(this.props.children.length+2)*100}%`, transform: `translateX(${-100/(this.props.children.length+2)*(this.state.currentCarousel+1)}%)`}}>
+                <div className = 'carousel-body' onTransitionEnd = {this.handlerTransitionEnd} style = {{transition: `transform ${this.state.animationStep}s`,width: `${(this.props.children.length+2)*100}%`, transform: `translateX(${-100/(this.props.children.length+2)*(this.state.currentCarousel+1)}%)`}}>
                     <div className = {`carousel-item`} style = {{width: `${100/(this.props.children.length+2)}%`}} key = {'strat'} >{this.props.children[this.props.children.length-1]}</div>
                     {this.props.children.map((item, index) => {
                         return <div className = {`carousel-item`} style = {{width: `${100/(this.props.children.length+2)}%`}} key = {index} >{item}</div>
@@ -107,6 +151,9 @@ export default class Test extends Component {
                      <div className = {`carousel-item`} style = {{width: `${100/(this.props.children.length+2)}%`}} key = {'end'} >{this.props.children[0]}</div>
                 </div>
                 {this.renderIndicators()}
+                <div>
+                    <button onClick = {this.handlerNext}>下一个</button>
+                </div>
             </div>
         )
     }
