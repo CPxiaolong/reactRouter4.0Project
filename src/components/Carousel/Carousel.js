@@ -181,8 +181,8 @@ export default class Test extends Component {
                 </div>
                 {this.renderIndicators()}
                 <div className = 'btn-container'>
-                    <div className = 'btn-direction pre' onClick = {this.handlerNext}>{'<'}</div>
-                    <div className = 'btn-direction next' onClick = {this.handlerPre}>{'>'}</div>  
+                    <div className = 'btn-direction pre' onClick = {this.handlerPre}>{'<'}</div>
+                    <div className = 'btn-direction next' onClick = {this.handlerNext}>{'>'}</div>  
                 </div>
             </div>
         )
