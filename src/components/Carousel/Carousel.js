@@ -144,9 +144,8 @@ export default class Test extends Component {
     }
 
     getIndicatorsActive(index) {
-        let active;
         // 边界判断 使在轮播在边界的时候 导航下面的小标 也能正常的添加active状态
-        if (this.state.currentCarousel === index || this.state.currentCarousel === index + this.props.children.length || this.state.currentCarousel < 0 && index === this.props.children.length - 1) {
+        if (this.state.currentCarousel === index || this.state.currentCarousel === index + this.props.children.length || (this.state.currentCarousel < 0 && index === this.props.children.length - 1)) {
             return 'active';
         }
         return ''

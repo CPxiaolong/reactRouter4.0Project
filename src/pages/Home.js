@@ -9,6 +9,7 @@ export default class Home extends Component {
                 <div className = 'link-box'>
                     <NavLink to="/calendar" activeClassName="selected"> calendar </NavLink>
                     <NavLink to="/carousel" activeClassName="selected"> 轮播 </NavLink>
+                    <NavLink to="/Modal" activeClassName="selected"> 弹出层 </NavLink>
                 </div>
                 <div>
                     {this.props.children}
