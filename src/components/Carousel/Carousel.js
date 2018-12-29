@@ -48,7 +48,6 @@ export default class Test extends Component {
     startCarousel() {
         this.stopCarousel()
         this.timerID = setInterval(() => {
-                console.log(this.state.currentCarousel)
                 this.handlerCarousel()  
             },
             this.props.step
@@ -114,6 +113,7 @@ export default class Test extends Component {
      */
     handleCarouselFooterMouseOver(currentIndex) {
         this.setState({
+            animationStep: this.props.animationStep,
             currentCarousel: currentIndex
         });
     }
