@@ -12,6 +12,11 @@ export default class Dialog extends Component {
         visible: false
     }
 
+    constructor(props) {
+        super(props);
+        this.removePopup = this.removePopup.bind(this);
+    }
+
     componentWillMount() {
         style.use()
     }
@@ -27,10 +32,7 @@ export default class Dialog extends Component {
 
     componentWillUnmount() {
         style.unuse()
-        if (this.popup) {
-            ReactDom.unmountComponentAtNode(this.popup);
-            document.body.removeChild(this.popup);
-        }
+        this.removePopup()
     }
 
     renderComponent() {
@@ -40,10 +42,15 @@ export default class Dialog extends Component {
             document.body.appendChild(this.popup);
             ReactDom.render(this.props.children, this.popup);
         } else {
-            if (this.popup) {
-                ReactDom.unmountComponentAtNode(this.popup);
-                document.body.removeChild(this.popup);
-            }
+            this.removePopup()
+        }
+    }
+
+    removePopup() {
+        if (this.popup) {
+            ReactDom.unmountComponentAtNode(this.popup);
+            document.body.removeChild(this.popup);
+            this.popup = null
         }
     }
 
@@ -52,7 +59,6 @@ export default class Dialog extends Component {
     }
 
     render() {
-        console.log(this.props,'props.visible')
         return null;
     }
 }

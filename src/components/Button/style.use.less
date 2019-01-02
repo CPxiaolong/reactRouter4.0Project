@@ -1,0 +1,37 @@
+@colorPrimary: #1890ff;
+.cp-btn {
+    line-height: 1.499;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 0 15px;
+    font-size: 14px;
+    border-radius: 4px;
+    height: 32px;
+    user-select: none;
+    transition: all .3s cubic-bezier(.645, .045, .355, 1);
+    position: relative;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.015);
+    color: rgba(0,0,0,0.65);
+    background-color: #fff;
+    border-color: #d9d9d9;
+}
+.cp-btn-primary {
+    color: #fff;
+    background-color: @colorPrimary;
+    border-color: @colorPrimary;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.12);
+    box-shadow: 0 2px 0 rgba(0,0,0,0.045);
+}
+.cp-btn-primary:hover {
+    background-color: fade(@colorPrimary, 80%);
+    border-color: fade(@colorPrimary, 80%);
+}
+.cp-btn, .cp-btn:active, .cp-btn:focus {
+    outline: 0;
+}
