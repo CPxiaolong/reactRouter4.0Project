@@ -6,7 +6,7 @@ export default class Modal extends Component {
     static propTypes = {
         visible: PropTypes.bool   
     }
-    static prop = {
+    static defaultProps = {
         visible: false
     }
     render() {

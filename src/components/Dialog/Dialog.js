@@ -4,16 +4,16 @@ import PropTypes from 'prop-types';
 import style from './style.use.less';
 
 export default class Dialog extends Component {
-    
+    static defaultProps = {
+        visible: false
+    }
+
     componentWillMount() {
         style.use()
     }
 
 
     componentDidMount(){//新建一个div标签并塞进body
-        this.popup = document.createElement("div");
-        this.popup.className = 'Dialog'
-        document.body.appendChild(this.popup);
         this.renderComponent();
     }
 
@@ -28,7 +28,16 @@ export default class Dialog extends Component {
     }
 
     renderComponent() {
-        ReactDom.render(this.props.children, this.popup);
+        if (this.isModalVisible) {
+            this.popup = document.createElement("div");
+            this.popup.className = 'Dialog'
+            document.body.appendChild(this.popup);
+            ReactDom.render(this.props.children, this.popup);
+        }
+    }
+
+    get isModalVisible() {
+        return this.props.visible
     }
 
     render() {
