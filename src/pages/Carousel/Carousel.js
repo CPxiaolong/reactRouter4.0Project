@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React from 'react';
 import style from './style.use.less'
 import Carouse from '../../components/Carousel/Carousel'
 
-export default class Test extends Component {
+export default class Test extends React.Component {
     componentWillMount() {
         style.use()
     }

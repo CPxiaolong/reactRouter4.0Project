@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Dialog from '../Dialog/Dialog';
 import PropTypes from 'prop-types';
 import style from './style.use.less';
 import Button from '../../components/Button/Button';
 
-export default class Modal extends Component {
+export default class Modal extends React.Component {
     static propTypes = {
         visible: PropTypes.bool,
         /**

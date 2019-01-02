@@ -1,9 +1,8 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Modal from '../../components/Modal/Modal';
 import Button from '../../components/Button/Button';
-import PropTypes from 'prop-types';
 
-export default class ModalDemo extends Component {
+export default class ModalDemo extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -41,19 +40,17 @@ export default class ModalDemo extends Component {
 
     render() {
         return (
-        <div>
-            <Modal
-                title = '标题'
-                visible = {this.state.visible}
-                onOk = {this.handleOk}
-                onCancel = {this.handleCancel}
-            >
-                <div>用来显示的 modalbody</div>
-            </Modal>
-            <Button type = 'primary' onClick = {this.handleShow}>弹出</Button>
-        </div>
-        
-
+            <div>
+                <Modal
+                    title = '标题'
+                    visible = {this.state.visible}
+                    onOk = {this.handleOk}
+                    onCancel = {this.handleCancel}
+                >
+                    <div>用来显示的 modalbody</div>
+                </Modal>
+                <Button type = 'primary' onClick = {this.handleShow}>弹出</Button>
+            </div>
         )
     }
 }

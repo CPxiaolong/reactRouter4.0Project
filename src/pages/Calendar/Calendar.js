@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React from 'react';
 import style from './style.use.less'
 
-export default class Test extends Component {
+export default class Test extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
