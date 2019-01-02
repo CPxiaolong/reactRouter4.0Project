@@ -1,16 +1,25 @@
 import React, {Component} from 'react';
-import Dialog from '../../components/Dialog/Dialog'
+import Modal from '../../components/Modal/Modal'
 import PropTypes from 'prop-types';
 
-export default class Modal extends Component {
-    static propTypes = {
-        visible: PropTypes.bool   
+export default class ModalDemo extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            visible: false
+        }
+        this.handlerToggle = this.handlerToggle.bind(this);
     }
-    static defaultProps = {
-        visible: false
-    }
-    render() {
 
-        return <Dialog><div>1234</div></Dialog>
+    handlerToggle() {
+        this.setState(pre => {
+            return {
+                visible: !pre.visible
+            }
+        })
+    }
+
+    render() {
+        return <Modal></Modal>
     }
 }

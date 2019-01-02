@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 import style from './style.use.less';
 
 export default class Dialog extends Component {
+    static propTypes = {
+        visible: PropTypes.bool   
+    }
+
     static defaultProps = {
         visible: false
     }
@@ -23,8 +27,10 @@ export default class Dialog extends Component {
 
     componentWillUnmount() {
         style.unuse()
-        ReactDom.unmountComponentAtNode(this.popup);
-        document.body.removeChild(this.popup);
+        if (this.popup) {
+            ReactDom.unmountComponentAtNode(this.popup);
+            document.body.removeChild(this.popup);
+        }
     }
 
     renderComponent() {
@@ -33,6 +39,11 @@ export default class Dialog extends Component {
             this.popup.className = 'Dialog'
             document.body.appendChild(this.popup);
             ReactDom.render(this.props.children, this.popup);
+        } else {
+            if (this.popup) {
+                ReactDom.unmountComponentAtNode(this.popup);
+                document.body.removeChild(this.popup);
+            }
         }
     }
 
@@ -41,6 +52,7 @@ export default class Dialog extends Component {
     }
 
     render() {
+        console.log(this.props,'props.visible')
         return null;
     }
 }
